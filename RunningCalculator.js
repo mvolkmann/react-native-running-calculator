@@ -3,14 +3,17 @@ import React, {Component} from 'react';
 import {
   CameraRoll,
   Image,
+  Modal,
   Picker,
   Platform,
   ScrollView,
   Slider,
+  StatusBar,
   StyleSheet,
   Switch,
   Text,
   TextInput,
+  TouchableHighlight,
   View
 } from 'react-native';
 import MyButton from './MyButton';
@@ -50,6 +53,7 @@ export default class RunningCalculator extends Component {
     canUseCameraRoll: false,
     distance: 26.2,
     isKm: false,
+    modalVisible: false,
     pace: '',
     shoeSize: 9,
     time: '',
@@ -113,6 +117,9 @@ export default class RunningCalculator extends Component {
   setIsKm = isKm => {
     this.setState({isKm}, this.updatePace);
   };
+
+  toggleModal = modalVisible =>
+    this.setState(state => ({modalVisible: !state.modalVisible}));
 
   setPace = pace => {
     if (PACE_RE.test(pace)) {
@@ -190,6 +197,26 @@ export default class RunningCalculator extends Component {
     //keyboardType="number-pad"
     return (
       <ScrollView contentContainerStyle={styles.container}>
+        <Modal
+          animationType="slide"
+          transparent
+          visible={this.state.modalVisible}
+        >
+          <View style={styles.modalOuter}>
+            <View style={styles.modalInner}>
+              <StatusBar barStyle="dark-content" />
+              <Text style={{fontSize: 30}}>Hello World!</Text>
+              <MyButton
+                buttonStyle={{borderColor: 'red', marginTop: 30, width: 70}}
+                onPress={this.toggleModal}
+                textStyle={{color: 'red'}}
+                text="Close"
+              />
+            </View>
+          </View>
+        </Modal>
+
+        <StatusBar barStyle="light-content" />
         <Text style={styles.title}>Running Calculator</Text>
         <View style={styles.switchRow}>
           <Text
@@ -242,6 +269,7 @@ export default class RunningCalculator extends Component {
             value={String(pace)}
           />
         </View>
+        <MyButton onPress={this.toggleModal} text="Open" />
         <View style={styles.slider}>
           <Slider
             minimumValue={5}
@@ -328,6 +356,18 @@ const styles = StyleSheet.create({
     height: 100,
     marginTop: 10,
     width: 100
+  },
+  modalInner: {
+    backgroundColor: 'linen',
+    height: '70%',
+    padding: 50,
+    width: '70%'
+  },
+  modalOuter: {
+    backgroundColor: 'rgba(80, 80, 80, 0.1)',
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   picker: {
     height: pickerHeight,
