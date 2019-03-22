@@ -6,6 +6,7 @@ import {
   Picker,
   Platform,
   ScrollView,
+  Slider,
   StyleSheet,
   Switch,
   Text,
@@ -50,6 +51,7 @@ export default class RunningCalculator extends Component {
     distance: 26.2,
     isKm: false,
     pace: '',
+    shoeSize: 9,
     time: '',
     uri: ''
   };
@@ -118,6 +120,8 @@ export default class RunningCalculator extends Component {
     }
   };
 
+  setShoeSize = shoeSize => this.setState({shoeSize});
+
   setTime = time => {
     if (TIME_RE.test(time)) {
       this.setState({time}, this.updatePace);
@@ -171,6 +175,7 @@ export default class RunningCalculator extends Component {
       distance,
       isKm,
       pace,
+      shoeSize,
       time,
       uri
     } = this.state;
@@ -236,6 +241,18 @@ export default class RunningCalculator extends Component {
             style={styles.input}
             value={String(pace)}
           />
+        </View>
+        <View style={styles.slider}>
+          <Slider
+            minimumValue={5}
+            maximumValue={15}
+            onValueChange={this.setShoeSize}
+            step={1}
+            value={shoeSize}
+          />
+          <Text style={[styles.label, {width: '80%'}]}>
+            Shoe size: {shoeSize}
+          </Text>
         </View>
         {this.getSummary()}
         <View>
@@ -323,6 +340,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     margin: 10
+  },
+  slider: {
+    flex: 1,
+    alignItems: 'stretch',
+    justifyContent: 'center',
+    width: '80%'
   },
   svg: {
     marginTop: 60
