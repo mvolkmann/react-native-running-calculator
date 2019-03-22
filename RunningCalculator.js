@@ -1,6 +1,7 @@
 import {ImagePicker, LocalAuthentication, Permissions} from 'expo';
 import React, {Component} from 'react';
 import {
+  CameraRoll,
   Image,
   Picker,
   Platform,
@@ -127,7 +128,10 @@ export default class RunningCalculator extends Component {
     try {
       const options = {allowsEditing: true};
       const result = await ImagePicker.launchCameraAsync(options);
-      if (!result.cancelled) this.setState({uri: result.uri});
+      if (!result.cancelled) {
+        this.setState({uri: result.uri});
+        CameraRoll.saveToCameraRoll(result.uri);
+      }
     } catch (e) {
       console.error(e);
     }
