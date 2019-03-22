@@ -1,3 +1,5 @@
+import {Camera, ImageManipulator, Permissions} from 'expo';
+import {string} from 'prop-types';
 import React, {Component} from 'react';
 import {
   Dimensions,
@@ -6,17 +8,20 @@ import {
   Text,
   View
 } from 'react-native';
-import {Camera, ImageManipulator, Permissions} from 'expo';
 import MyButton from './MyButton';
 
 const {back, front} = Camera.Constants.Type;
 
 export default class CameraExample extends Component {
+  static propTypes = {uri: string};
+
   state = {
     hasPermission: null,
     height: 0,
-    type: back,
-    uri: '' // of photo
+    photoUri: '',
+    photoUriProp: '',
+    showCamera: true,
+    type: back
   };
 
   async componentDidMount() {
@@ -27,6 +32,12 @@ export default class CameraExample extends Component {
     } catch (e) {
       console.error(e);
     }
+  }
+
+  static getDerivedStateFromProps(props, state) {
+    return props.uri !== state.photoUriProp
+      ? {photoUri: '', photoUriProp: props.uri}
+      : null;
   }
 
   captureCamera = ref => (this.camera = ref);
@@ -41,14 +52,12 @@ export default class CameraExample extends Component {
     console.log('MyCamera.js snap: entered');
     if (!this.camera) return;
 
-    const {type, uri} = this.state;
-
     try {
       const photo = await this.camera.takePictureAsync();
 
       // When the front-facing camera is used,
       // the image needs to be flipped.
-      if (type === front) {
+      if (this.state.type === front) {
         const result = await ImageManipulator.manipulateAsync(
           photo.uri,
           [{flip: {horizontal: true}}],
@@ -57,17 +66,17 @@ export default class CameraExample extends Component {
         photo.uri = result.uri;
       }
 
-      this.setState({uri: photo.uri});
+      this.setState({photoUri: photo.uri, showCamera: false});
     } catch (e) {
-      console.error(e);
+      console.error('snap failed to take photo:', e.message);
     }
   };
 
-  startCamera = () => this.setState({uri: ''});
+  startCamera = () => this.setState({showCamera: true});
 
   render() {
-    const {hasPermission, height, type, uri} = this.state;
-    const havePhoto = uri !== '';
+    const {hasPermission, height, photoUriProp, showCamera, type} = this.state;
+    const photoUri = this.state.photoUri || photoUriProp;
 
     // If we haven't asked for permission to use camera yet ...
     if (hasPermission === null) return <View />;
@@ -77,16 +86,7 @@ export default class CameraExample extends Component {
 
     return (
       <View style={[styles.container, {height}]}>
-        {havePhoto && (
-          <ImageBackground style={styles.view} source={{uri}}>
-            <MyButton
-              buttonStyle={styles.button}
-              onPress={this.startCamera}
-              text="Camera"
-            />
-          </ImageBackground>
-        )}
-        {!havePhoto && (
+        {showCamera && (
           <Camera style={{flex: 1}} ref={this.captureCamera} type={type}>
             <View style={styles.view}>
               <MyButton
@@ -101,6 +101,15 @@ export default class CameraExample extends Component {
               />
             </View>
           </Camera>
+        )}
+        {!showCamera && (
+          <ImageBackground style={styles.view} source={{uri: photoUri}}>
+            <MyButton
+              buttonStyle={styles.button}
+              onPress={this.startCamera}
+              text="Camera"
+            />
+          </ImageBackground>
         )}
       </View>
     );

@@ -1,3 +1,4 @@
+import {ImagePicker, LocalAuthentication, Permissions} from 'expo';
 import React, {Component} from 'react';
 import {
   Image,
@@ -10,6 +11,7 @@ import {
   TextInput,
   View
 } from 'react-native';
+import MyButton from './MyButton';
 import MyCamera from './MyCamera';
 import SvgDemo from './SvgDemo';
 
@@ -41,12 +43,39 @@ const isIos = Platform.OS === 'ios';
 const keyboardType = isIos ? 'numbers-and-punctuation' : 'default';
 
 export default class RunningCalculator extends Component {
-  //TODO: Add a way to select distance from a list of common ones.
   state = {
+    authenticated: true, // change to false if using LocalAuthentication
+    canUseCameraRoll: false,
     distance: 26.2,
     isKm: false,
     pace: '',
-    time: ''
+    time: '',
+    uri: ''
+  };
+
+  async componentDidMount() {
+    // Require authentication using a passcode, touch id, or face id.
+    /*
+    const prompt = 'Allow RunningCalculator to start?';
+    const result = await LocalAuthentication.authenticateAsync(prompt);
+    this.setState({authenticated: result.success});
+    */
+    try {
+      const {status} = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+      this.setState({canUseCameraRoll: status === 'granted'});
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  getPhoto = async () => {
+    try {
+      const options = {};
+      const result = await ImagePicker.launchImageLibraryAsync(options);
+      if (!result.cancelled) this.setState({uri: result.uri});
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   getSummary = () => {
@@ -123,7 +152,22 @@ export default class RunningCalculator extends Component {
   };
 
   render() {
-    const {distance, isKm, pace, time} = this.state;
+    const {
+      authenticated,
+      canUseCameraRoll,
+      distance,
+      isKm,
+      pace,
+      time,
+      uri
+    } = this.state;
+    if (!authenticated)
+      return (
+        <View style={styles.center}>
+          <Text style={styles.error}>Authentication failed!</Text>
+        </View>
+      );
+
     const {switchLabel, switchLabelSelected} = styles;
     //keyboardType="number-pad"
     return (
@@ -200,7 +244,10 @@ export default class RunningCalculator extends Component {
           style={styles.logo}
           source={require('./assets/react-logo.png')}
         />
-        <MyCamera />
+        {canUseCameraRoll && (
+          <MyButton onPress={this.getPhoto} text="Get Photo" />
+        )}
+        <MyCamera uri={uri} />
       </ScrollView>
     );
   }
@@ -210,12 +257,22 @@ export default class RunningCalculator extends Component {
 const pickerHeight = isIos ? 150 : 50;
 
 const styles = StyleSheet.create({
+  center: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
   container: {
     backgroundColor: 'cornflowerblue',
     flexDirection: 'column',
     justifyContent: 'flex-start',
     alignItems: 'center',
     paddingTop: 50
+  },
+  error: {
+    color: 'red',
+    fontSize: 36,
+    fontWeight: 'bold'
   },
   input: {
     backgroundColor: 'white',
