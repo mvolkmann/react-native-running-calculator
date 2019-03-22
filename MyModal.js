@@ -1,32 +1,68 @@
+import {bool, func, object, string} from 'prop-types';
 import React, {Component} from 'react';
-import {Modal, StyleSheet, Text, View} from 'react-native';
+import {Modal, StatusBar, StyleSheet, Text, View} from 'react-native';
 import MyButton from './MyButton';
 
-const MyModal = ({children, title, visible}) => (
+const MyModal = ({children, onClose, style, title, visible}) => (
   <Modal animationType="slide" transparent visible={visible}>
     <View style={styles.modalOuter}>
-      <View style={styles.modalInner}>
-        <StatusBar barStyle="dark-content" />
-        <Text style={styles.title}>{title}</Text>
-        {children}
-        <MyButton
-          buttonStyle={{borderColor: 'red', marginTop: 30, width: 70}}
-          onPress={this.toggleModal}
-          textStyle={{color: 'red'}}
-          text="Close"
-        />
+      <View style={[styles.modalInner, style]}>
+        <View style={styles.titleRow}>
+          <Text style={styles.title}>{title}</Text>
+          <Text onPress={onClose} style={styles.title}>
+            &#x2716;
+          </Text>
+        </View>
+        <View style={styles.body}>{children}</View>
+        <View style={styles.buttonRow}>
+          <MyButton
+            buttonStyle={styles.button}
+            onPress={onClose}
+            text="Close"
+            textStyle={styles.button}
+          />
+        </View>
       </View>
     </View>
   </Modal>
 );
 
+MyModal.propTypes = {
+  onClose: func.isRequired,
+  style: object,
+  title: string.isRequired,
+  visible: bool.isRequired
+};
+
+MyModal.defaultProps = {
+  style: {}
+};
+
 export default MyModal;
 
+const BORDER_COLOR = 'blue';
+const BUTTON_COLOR = 'gray';
+const SPACING = 10;
+
 const styles = StyleSheet.create({
+  body: {
+    margin: SPACING
+  },
+  button: {
+    borderColor: BUTTON_COLOR,
+    color: BUTTON_COLOR
+  },
+  buttonRow: {
+    borderTopColor: BORDER_COLOR,
+    borderTopWidth: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    padding: SPACING
+  },
   modalInner: {
     backgroundColor: 'linen',
-    height: '70%',
-    padding: 50,
+    borderColor: 'gray',
+    borderWidth: 5,
     width: '70%'
   },
   modalOuter: {
@@ -37,7 +73,14 @@ const styles = StyleSheet.create({
   },
   title: {
     color: 'blue',
-    fontSize: 36,
+    fontSize: 24,
     fontWeight: 'bold'
+  },
+  titleRow: {
+    borderBottomColor: BORDER_COLOR,
+    borderBottomWidth: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: SPACING
   }
 });

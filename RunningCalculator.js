@@ -18,6 +18,7 @@ import {
 } from 'react-native';
 import MyButton from './MyButton';
 import MyCamera from './MyCamera';
+import MyModal from './MyModal';
 import SvgDemo from './SvgDemo';
 
 const DISTANCE_RE = /^(|\d{1,2}(\.\d{0,2})?)$/;
@@ -197,24 +198,14 @@ export default class RunningCalculator extends Component {
     //keyboardType="number-pad"
     return (
       <ScrollView contentContainerStyle={styles.container}>
-        <Modal
-          animationType="slide"
-          transparent
+        <MyModal
+          onClose={this.toggleModal}
+          title="Hello World"
           visible={this.state.modalVisible}
         >
-          <View style={styles.modalOuter}>
-            <View style={styles.modalInner}>
-              <StatusBar barStyle="dark-content" />
-              <Text style={{fontSize: 30}}>Hello World!</Text>
-              <MyButton
-                buttonStyle={{borderColor: 'red', marginTop: 30, width: 70}}
-                onPress={this.toggleModal}
-                textStyle={{color: 'red'}}
-                text="Close"
-              />
-            </View>
-          </View>
-        </Modal>
+          <Text>Child #1</Text>
+          <Text>Child #2</Text>
+        </MyModal>
 
         <StatusBar barStyle="light-content" />
         <Text style={styles.title}>Running Calculator</Text>

@@ -1,9 +1,12 @@
+import {func, object, string} from 'prop-types';
 import React from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 
-function MyButton({buttonStyle = {}, onPress, text, textStyle = {}}) {
-  bStyle = {borderColor: 'white', borderWidth: 1, padding: 10, ...buttonStyle};
-  tStyle = {color: 'white', fontSize: 18, ...textStyle};
+const COLOR = 'white';
+
+function MyButton({buttonStyle, onPress, text, textStyle}) {
+  bStyle = {borderColor: COLOR, borderWidth: 1, padding: 10, ...buttonStyle};
+  tStyle = {color: COLOR, fontSize: 18, ...textStyle};
 
   return (
     <TouchableOpacity onPress={onPress} style={bStyle}>
@@ -11,5 +14,17 @@ function MyButton({buttonStyle = {}, onPress, text, textStyle = {}}) {
     </TouchableOpacity>
   );
 }
+
+MyButton.propTypes = {
+  buttonStyle: object,
+  onPress: func.isRequired,
+  text: string.isRequired,
+  textStyle: object
+};
+
+MyButton.defaultProps = {
+  buttonStyle: {},
+  textStyle: {}
+};
 
 export default MyButton;
