@@ -70,8 +70,7 @@ export default class RunningCalculator extends Component {
 
   getPhoto = async () => {
     try {
-      const options = {};
-      const result = await ImagePicker.launchImageLibraryAsync(options);
+      const result = await ImagePicker.launchImageLibraryAsync();
       if (!result.cancelled) this.setState({uri: result.uri});
     } catch (e) {
       console.error(e);
@@ -121,6 +120,16 @@ export default class RunningCalculator extends Component {
   setTime = time => {
     if (TIME_RE.test(time)) {
       this.setState({time}, this.updatePace);
+    }
+  };
+
+  takePhoto = async () => {
+    try {
+      const options = {allowsEditing: true};
+      const result = await ImagePicker.launchCameraAsync(options);
+      if (!result.cancelled) this.setState({uri: result.uri});
+    } catch (e) {
+      console.error(e);
     }
   };
 
@@ -246,6 +255,9 @@ export default class RunningCalculator extends Component {
         />
         {canUseCameraRoll && (
           <MyButton onPress={this.getPhoto} text="Get Photo" />
+        )}
+        {canUseCameraRoll && (
+          <MyButton onPress={this.takePhoto} text="Take Photo" />
         )}
         <MyCamera uri={uri} />
       </ScrollView>

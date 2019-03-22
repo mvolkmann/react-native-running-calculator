@@ -26,9 +26,12 @@ export default class CameraExample extends Component {
 
   async componentDidMount() {
     try {
-      const {height} = Dimensions.get('window');
       const {status} = await Permissions.askAsync(Permissions.CAMERA);
-      this.setState({hasPermission: status === 'granted', height});
+      this.setState(state => ({
+        hasPermission: status === 'granted',
+        height: Dimensions.get('window').height,
+        showCamera: state.photoUriProp === ''
+      }));
     } catch (e) {
       console.error(e);
     }
@@ -36,7 +39,7 @@ export default class CameraExample extends Component {
 
   static getDerivedStateFromProps(props, state) {
     return props.uri !== state.photoUriProp
-      ? {photoUri: '', photoUriProp: props.uri}
+      ? {photoUri: '', photoUriProp: props.uri, showCamera: false}
       : null;
   }
 
