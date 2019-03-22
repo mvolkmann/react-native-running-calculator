@@ -38,8 +38,6 @@ MyModal.defaultProps = {
   style: {}
 };
 
-export default MyModal;
-
 const BORDER_COLOR = 'blue';
 const BUTTON_COLOR = 'gray';
 const SPACING = 10;
@@ -84,3 +82,5 @@ const styles = StyleSheet.create({
     padding: SPACING
   }
 });
+
+export default MyModal;

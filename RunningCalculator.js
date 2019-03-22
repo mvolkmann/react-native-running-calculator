@@ -16,6 +16,7 @@ import {
   TouchableHighlight,
   View
 } from 'react-native';
+import Dial from './Dial';
 import MyButton from './MyButton';
 import MyCamera from './MyCamera';
 import MyModal from './MyModal';
@@ -208,7 +209,11 @@ export default class RunningCalculator extends Component {
         </MyModal>
 
         <StatusBar barStyle="light-content" />
+
         <Text style={styles.title}>Running Calculator</Text>
+
+        <Dial width="80%" />
+
         <View style={styles.switchRow}>
           <Text
             onPress={() => this.setState({isKm: false})}
@@ -230,6 +235,7 @@ export default class RunningCalculator extends Component {
             Kilometers
           </Text>
         </View>
+
         <View style={styles.row}>
           <Text style={styles.label}>Distance</Text>
           <TextInput
@@ -260,7 +266,9 @@ export default class RunningCalculator extends Component {
             value={String(pace)}
           />
         </View>
+
         <MyButton onPress={this.toggleModal} text="Open" />
+
         <View style={styles.slider}>
           <Slider
             minimumValue={5}
@@ -270,10 +278,12 @@ export default class RunningCalculator extends Component {
             value={shoeSize}
           />
           <Text style={[styles.label, {width: '80%'}]}>
-            Shoe size: {shoeSize}
+            Shoe Size: {shoeSize}
           </Text>
         </View>
+
         {this.getSummary()}
+
         <View>
           <Picker
             itemStyle={styles.pickerItem}
@@ -286,13 +296,16 @@ export default class RunningCalculator extends Component {
             ))}
           </Picker>
         </View>
+
         <View style={styles.svg}>
           <SvgDemo />
         </View>
+
         <Image
           style={styles.logo}
           source={require('./assets/react-logo.png')}
         />
+
         {canUseCameraRoll && (
           <MyButton onPress={this.getPhoto} text="Get Photo" />
         )}
