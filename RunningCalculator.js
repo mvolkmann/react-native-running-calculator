@@ -267,21 +267,6 @@ export default class RunningCalculator extends Component {
           />
         </View>
 
-        <MyButton onPress={this.toggleModal} text="Open" />
-
-        <View style={styles.slider}>
-          <Slider
-            minimumValue={5}
-            maximumValue={15}
-            onValueChange={this.setShoeSize}
-            step={1}
-            value={shoeSize}
-          />
-          <Text style={[styles.label, {width: '80%'}]}>
-            Shoe Size: {shoeSize}
-          </Text>
-        </View>
-
         {this.getSummary()}
 
         <View>
@@ -297,6 +282,25 @@ export default class RunningCalculator extends Component {
           </Picker>
         </View>
 
+        <MyButton
+          buttonStyle={styles.button}
+          onPress={this.toggleModal}
+          text="Open"
+        />
+
+        <View style={styles.slider}>
+          <Slider
+            minimumValue={5}
+            maximumValue={15}
+            onValueChange={this.setShoeSize}
+            step={1}
+            value={shoeSize}
+          />
+          <Text style={[styles.label, {width: '80%'}]}>
+            Shoe Size: {shoeSize}
+          </Text>
+        </View>
+
         <View style={styles.svg}>
           <SvgDemo />
         </View>
@@ -307,11 +311,20 @@ export default class RunningCalculator extends Component {
         />
 
         {canUseCameraRoll && (
-          <MyButton onPress={this.getPhoto} text="Get Photo" />
+          <View>
+            <MyButton
+              buttonStyle={styles.button}
+              onPress={this.getPhoto}
+              text="Get Photo"
+            />
+            <MyButton
+              buttonStyle={styles.button}
+              onPress={this.takePhoto}
+              text="Take Photo"
+            />
+          </View>
         )}
-        {canUseCameraRoll && (
-          <MyButton onPress={this.takePhoto} text="Take Photo" />
-        )}
+
         <MyCamera uri={uri} />
       </ScrollView>
     );
@@ -322,6 +335,9 @@ export default class RunningCalculator extends Component {
 const pickerHeight = isIos ? 150 : 50;
 
 const styles = StyleSheet.create({
+  button: {
+    margin: 10
+  },
   center: {
     flex: 1,
     justifyContent: 'center',
@@ -375,6 +391,8 @@ const styles = StyleSheet.create({
   },
   picker: {
     height: pickerHeight,
+    marginBottom: 60,
+    marginTop: -30,
     width: 150
   },
   pickerItem: {
@@ -389,6 +407,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'stretch',
     justifyContent: 'center',
+    marginTop: 20,
     width: '80%'
   },
   svg: {
