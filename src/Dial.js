@@ -1,20 +1,18 @@
 import {number, string} from 'prop-types';
 import {Svg} from 'expo';
 import React from 'react';
-import {Dimensions, Text, View} from 'react-native';
+import {Dimensions, View} from 'react-native';
 
-const {Circle} = Svg;
+const {Circle, Text} = Svg;
 
 const windowWidth = Dimensions.get('window').width;
 
 const Dial = ({backgroundColor, strokeColor, strokeWidth, value, width}) => {
-  console.log('Dial.js x: width =', width);
   const widthInt = parseInt(width);
-  console.log('Dial.js x: widthInt =', widthInt);
   width = width.endsWith('%') ? windowWidth * (widthInt / 100) : widthInt;
-  console.log('Dial.js x: width =', width);
 
-  const radius = width / 2 - strokeWidth;
+  const height = width / 2;
+  const radius = height - strokeWidth;
   const circumference = 2 * Math.PI * radius;
   const half = circumference / 2;
 
@@ -34,7 +32,7 @@ const Dial = ({backgroundColor, strokeColor, strokeWidth, value, width}) => {
   }
 
   return (
-    <View style={{height: width / 2}}>
+    <View style={{borderColor: 'yellow', borderWidth: 1, height}}>
       <Svg height={width} width={width} viewBox={`0 0 ${width} ${width}`}>
         <Circle
           {...circleProps}
@@ -45,10 +43,20 @@ const Dial = ({backgroundColor, strokeColor, strokeWidth, value, width}) => {
         <Circle
           {...circleProps}
           stroke={strokeColor}
-          strokeDasharray={getDashArray(0.5)}
+          strokeDasharray={getDashArray(value / 100)}
           strokeWidth={strokeWidth * 0.8}
         />
-        <Text>{value}</Text>
+        <Text
+          fill="white"
+          fontSize={24}
+          fontWeight="bold"
+          stroke="white"
+          x={height}
+          y={height}
+          textAnchor="middle"
+        >
+          {value}
+        </Text>
       </Svg>
     </View>
   );

@@ -210,7 +210,7 @@ export default class RunningCalculator extends Component {
 
         <Text style={styles.title}>Running Calculator</Text>
 
-        <Dial value={75} width="80%" />
+        <Dial value={75} width="100%" />
 
         <View style={styles.switchRow}>
           <Text
