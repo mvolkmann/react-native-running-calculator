@@ -1,9 +1,9 @@
-import {ImagePicker, LocalAuthentication, Permissions} from 'expo';
+import {ImagePicker, Permissions} from 'expo';
+//import {LocalAuthentication} from 'expo';
 import React, {Component} from 'react';
 import {
   CameraRoll,
   Image,
-  Modal,
   Picker,
   Platform,
   ScrollView,
@@ -13,7 +13,6 @@ import {
   Switch,
   Text,
   TextInput,
-  TouchableHighlight,
   View
 } from 'react-native';
 import Dial from './Dial';
@@ -120,7 +119,7 @@ export default class RunningCalculator extends Component {
     this.setState({isKm}, this.updatePace);
   };
 
-  toggleModal = modalVisible =>
+  toggleModal = () =>
     this.setState(state => ({modalVisible: !state.modalVisible}));
 
   setPace = pace => {
@@ -160,7 +159,6 @@ export default class RunningCalculator extends Component {
     if (isKm) dist *= MILES_PER_KM;
 
     const parts = time.split(':').map(part => (part ? parseInt(part) : 0));
-    const {length} = parts;
     let seconds = parts.reduce((acc, part) => acc * 60 + part, 0);
 
     let pace = seconds / dist;
@@ -212,7 +210,7 @@ export default class RunningCalculator extends Component {
 
         <Text style={styles.title}>Running Calculator</Text>
 
-        <Dial width="80%" />
+        <Dial value={75} width="80%" />
 
         <View style={styles.switchRow}>
           <Text
@@ -307,7 +305,7 @@ export default class RunningCalculator extends Component {
 
         <Image
           style={styles.logo}
-          source={require('./assets/react-logo.png')}
+          source={require('../assets/react-logo.png')}
         />
 
         {canUseCameraRoll && (

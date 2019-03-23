@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import RunningCalculator from './RunningCalculator';
+import RunningCalculator from './src/RunningCalculator';
 
 export default class App extends Component {
   render() {

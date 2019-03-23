@@ -1,6 +1,6 @@
-import {bool, func, object, string} from 'prop-types';
-import React, {Component} from 'react';
-import {Modal, StatusBar, StyleSheet, Text, View} from 'react-native';
+import {bool, func, node, object, string} from 'prop-types';
+import React from 'react';
+import {Modal, StyleSheet, Text, View} from 'react-native';
 import MyButton from './MyButton';
 
 const MyModal = ({children, onClose, style, title, visible}) => (
@@ -28,6 +28,7 @@ const MyModal = ({children, onClose, style, title, visible}) => (
 );
 
 MyModal.propTypes = {
+  children: node.isRequired,
   onClose: func.isRequired,
   style: object,
   title: string.isRequired,

@@ -1,12 +1,17 @@
 import {func, object, string} from 'prop-types';
 import React from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Text, TouchableOpacity} from 'react-native';
 
 const COLOR = 'white';
 
 function MyButton({buttonStyle, onPress, text, textStyle}) {
-  bStyle = {borderColor: COLOR, borderWidth: 1, padding: 10, ...buttonStyle};
-  tStyle = {color: COLOR, fontSize: 18, ...textStyle};
+  const bStyle = {
+    borderColor: COLOR,
+    borderWidth: 1,
+    padding: 10,
+    ...buttonStyle
+  };
+  const tStyle = {color: COLOR, fontSize: 18, ...textStyle};
 
   return (
     <TouchableOpacity onPress={onPress} style={bStyle}>
