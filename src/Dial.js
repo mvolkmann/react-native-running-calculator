@@ -3,47 +3,90 @@ import {Svg} from 'expo';
 import React from 'react';
 import {Dimensions, View} from 'react-native';
 
-const {Circle, Text} = Svg;
+const {Path, Text} = Svg;
 
 const windowWidth = Dimensions.get('window').width;
+
+function polarToCartesian(
+  centerX,
+  centerY,
+  radius,
+  angleInDegrees,
+  strokeWidth
+) {
+  var angleInRadians = ((angleInDegrees - 180) * Math.PI) / 180.0;
+
+  return [
+    centerX + radius * Math.cos(angleInRadians),
+    centerY + radius * Math.sin(angleInRadians) - strokeWidth / 2
+  ];
+}
+
+function describeArc(
+  centerX,
+  centerY,
+  radius,
+  startAngle,
+  endAngle,
+  strokeWidth
+) {
+  var [startX, startY] = polarToCartesian(
+    centerX,
+    centerY,
+    radius,
+    endAngle,
+    strokeWidth
+  );
+  var [endX, endY] = polarToCartesian(
+    centerX,
+    centerY,
+    radius,
+    startAngle,
+    strokeWidth
+  );
+
+  var largeArcFlag = endAngle - startAngle <= 180 ? '0' : '1';
+
+  return `M ${startX} ${startY} A ${radius} ${radius} 0 ${largeArcFlag} 0 ${endX} ${endY}`;
+}
 
 const Dial = ({backgroundColor, strokeColor, strokeWidth, value, width}) => {
   const widthInt = parseInt(width);
   width = width.endsWith('%') ? windowWidth * (widthInt / 100) : widthInt;
 
-  const height = width / 2;
-  const radius = height - strokeWidth;
-  const circumference = 2 * Math.PI * radius;
-  const half = circumference / 2;
+  const halfWidth = width / 2;
+  const height = halfWidth;
+  const radius = halfWidth - strokeWidth;
 
-  const circleProps = {
-    cx: '50%',
-    cy: '50%',
-    r: radius,
-    fill: 'none',
-    strokeLinecap: 'round'
-  };
+  const centerX = width / 2;
+  const centerY = centerX;
+  const outerArcD = describeArc(centerX, centerY, radius, 0, 180, strokeWidth);
 
-  function getDashArray(percent) {
-    const dashSize = half * percent;
-    const gapSize = half * (1 - percent);
-    const da = `0, ${half}, ${dashSize}, ${gapSize}`;
-    return da;
-  }
+  const degrees = (value / 100) * 180;
+  const innerArcD = describeArc(
+    centerX,
+    centerY,
+    radius,
+    0,
+    degrees,
+    strokeWidth
+  );
 
   return (
-    <View style={{borderColor: 'yellow', borderWidth: 1, height}}>
+    <View style={{height}}>
       <Svg height={width} width={width} viewBox={`0 0 ${width} ${width}`}>
-        <Circle
-          {...circleProps}
+        <Path
+          d={outerArcD}
+          fill="transparent"
           stroke={backgroundColor}
-          strokeDasharray={getDashArray(1)}
+          strokeLinecap="round"
           strokeWidth={strokeWidth}
         />
-        <Circle
-          {...circleProps}
+        <Path
+          d={innerArcD}
+          fill="transparent"
           stroke={strokeColor}
-          strokeDasharray={getDashArray(value / 100)}
+          strokeLinecap="round"
           strokeWidth={strokeWidth * 0.8}
         />
         <Text

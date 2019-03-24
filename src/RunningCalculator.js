@@ -56,7 +56,7 @@ export default class RunningCalculator extends Component {
     isKm: false,
     modalVisible: false,
     pace: '',
-    shoeSize: 9,
+    score: 50,
     time: '',
     uri: ''
   };
@@ -128,7 +128,7 @@ export default class RunningCalculator extends Component {
     }
   };
 
-  setShoeSize = shoeSize => this.setState({shoeSize});
+  setScore = score => this.setState({score});
 
   setTime = time => {
     if (TIME_RE.test(time)) {
@@ -182,7 +182,7 @@ export default class RunningCalculator extends Component {
       distance,
       isKm,
       pace,
-      shoeSize,
+      score,
       time,
       uri
     } = this.state;
@@ -210,7 +210,18 @@ export default class RunningCalculator extends Component {
 
         <Text style={styles.title}>Running Calculator</Text>
 
-        <Dial value={75} width="100%" />
+        <Dial value={score} width="100%" />
+
+        <View style={styles.slider}>
+          <Slider
+            minimumValue={0}
+            maximumValue={100}
+            onValueChange={this.setScore}
+            step={1}
+            value={score}
+          />
+          <Text style={[styles.label, {width: '80%'}]}>Score: {score}</Text>
+        </View>
 
         <View style={styles.switchRow}>
           <Text
@@ -285,19 +296,6 @@ export default class RunningCalculator extends Component {
           onPress={this.toggleModal}
           text="Open"
         />
-
-        <View style={styles.slider}>
-          <Slider
-            minimumValue={5}
-            maximumValue={15}
-            onValueChange={this.setShoeSize}
-            step={1}
-            value={shoeSize}
-          />
-          <Text style={[styles.label, {width: '80%'}]}>
-            Shoe Size: {shoeSize}
-          </Text>
-        </View>
 
         <View style={styles.svg}>
           <SvgDemo />
