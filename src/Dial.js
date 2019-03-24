@@ -1,4 +1,4 @@
-import {number, string} from 'prop-types';
+import {number, object, string} from 'prop-types';
 import {Svg} from 'expo';
 import React from 'react';
 import {Dimensions, View} from 'react-native';
@@ -50,7 +50,14 @@ function describeArc(
   return `M ${startX} ${startY} A ${radius} ${radius} 0 ${largeArcFlag} 0 ${endX} ${endY}`;
 }
 
-const Dial = ({backgroundColor, strokeColor, strokeWidth, value, width}) => {
+const Dial = ({
+  backgroundColor,
+  strokeColor,
+  strokeWidth,
+  style,
+  value,
+  width
+}) => {
   const widthInt = parseInt(width);
   width = width.endsWith('%') ? windowWidth * (widthInt / 100) : widthInt;
 
@@ -73,7 +80,7 @@ const Dial = ({backgroundColor, strokeColor, strokeWidth, value, width}) => {
   );
 
   return (
-    <View style={{height}}>
+    <View style={[style, {height}]}>
       <Svg height={width} width={width} viewBox={`0 0 ${width} ${width}`}>
         <Path
           d={outerArcD}
@@ -109,6 +116,7 @@ Dial.propTypes = {
   backgroundColor: string,
   strokeColor: string,
   strokeWidth: number,
+  style: object,
   value: number.isRequired,
   width: string
 };
@@ -117,6 +125,7 @@ Dial.defaultProps = {
   backgroundColor: 'red',
   strokeColor: 'white',
   strokeWidth: 60,
+  style: {},
   width: windowWidth.toString()
 };
 

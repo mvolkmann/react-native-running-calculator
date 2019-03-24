@@ -210,7 +210,7 @@ export default class RunningCalculator extends Component {
 
         <Text style={styles.title}>Running Calculator</Text>
 
-        <Dial value={score} width="100%" />
+        <Dial style={{marginTop: 20}} value={score} width="100%" />
 
         <View style={styles.slider}>
           <Slider
@@ -220,7 +220,6 @@ export default class RunningCalculator extends Component {
             step={1}
             value={score}
           />
-          <Text style={[styles.label, {width: '80%'}]}>Score: {score}</Text>
         </View>
 
         <View style={styles.switchRow}>
