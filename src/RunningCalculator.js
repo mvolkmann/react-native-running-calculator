@@ -278,13 +278,12 @@ export default class RunningCalculator extends Component {
 
         <View key="distance-picker">
           <Picker
-            itemStyle={styles.pickerItem}
             onValueChange={this.setDistanceName}
             selectedValue={this.state.distanceName}
             style={styles.picker}
           >
             {distanceNames.map(name => (
-              <Picker.Item color="blue" key={name} label={name} value={name} />
+              <Picker.Item color="white" key={name} label={name} value={name} />
             ))}
           </Picker>
         </View>
@@ -387,9 +386,6 @@ const styles = StyleSheet.create({
     marginBottom: 60,
     marginTop: -30,
     width: 150
-  },
-  pickerItem: {
-    color: 'white'
   },
   row: {
     flexDirection: 'row',
