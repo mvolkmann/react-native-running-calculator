@@ -89,7 +89,7 @@ export default class RunningCalculator extends Component {
     const {distance, time} = this.state;
     if (!distance || !time) return null;
     return (
-      <View>
+      <View key="summary">
         <Text style={styles.text}>
           You ran {distance} miles in {time}.
         </Text>
@@ -104,7 +104,6 @@ export default class RunningCalculator extends Component {
   };
 
   setDistanceName = name => {
-    console.log('RunningCalculator.js setDistanceName: name =', name);
     this.setState(
       {
         distance: distanceMap[name],
@@ -212,7 +211,7 @@ export default class RunningCalculator extends Component {
 
         <Dial style={{marginTop: 20}} value={score} width="100%" />
 
-        <View style={styles.slider}>
+        <View key="score" style={styles.slider}>
           <Slider
             minimumValue={0}
             maximumValue={100}
@@ -222,7 +221,7 @@ export default class RunningCalculator extends Component {
           />
         </View>
 
-        <View style={styles.switchRow}>
+        <View key="units" style={styles.switchRow}>
           <Text
             onPress={() => this.setState({isKm: false})}
             style={isKm ? switchLabel : switchLabelSelected}
@@ -244,7 +243,7 @@ export default class RunningCalculator extends Component {
           </Text>
         </View>
 
-        <View style={styles.row}>
+        <View key="distance" style={styles.row}>
           <Text style={styles.label}>Distance</Text>
           <TextInput
             keyboardType={keyboardType}
@@ -254,7 +253,7 @@ export default class RunningCalculator extends Component {
             value={String(distance)}
           />
         </View>
-        <View style={styles.row}>
+        <View key="time" style={styles.row}>
           <Text style={styles.label}>Time</Text>
           <TextInput
             keyboardType={keyboardType}
@@ -264,7 +263,7 @@ export default class RunningCalculator extends Component {
             value={String(time)}
           />
         </View>
-        <View style={styles.row}>
+        <View key="pace" style={styles.row}>
           <Text style={styles.label}>Pace</Text>
           <TextInput
             keyboardType={keyboardType}
@@ -277,7 +276,7 @@ export default class RunningCalculator extends Component {
 
         {this.getSummary()}
 
-        <View>
+        <View key="distance-picker">
           <Picker
             itemStyle={styles.pickerItem}
             onValueChange={this.setDistanceName}
@@ -340,7 +339,6 @@ const styles = StyleSheet.create({
   },
   container: {
     backgroundColor: 'cornflowerblue',
-    flexDirection: 'column',
     justifyContent: 'flex-start',
     alignItems: 'center',
     paddingTop: 50
