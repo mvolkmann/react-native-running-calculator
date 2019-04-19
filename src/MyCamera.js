@@ -12,12 +12,13 @@ import MyButton from './MyButton';
 
 const {back, front} = Camera.Constants.Type;
 
+const {height} = Dimensions.get('window');
+
 export default class CameraExample extends Component {
   static propTypes = {uri: string};
 
   state = {
     hasPermission: null,
-    height: 0,
     photoUri: '',
     photoUriProp: '',
     showCamera: true,
@@ -29,7 +30,6 @@ export default class CameraExample extends Component {
       const {status} = await Permissions.askAsync(Permissions.CAMERA);
       this.setState(state => ({
         hasPermission: status === 'granted',
-        height: Dimensions.get('window').height,
         showCamera: state.photoUriProp === ''
       }));
     } catch (e) {
@@ -78,7 +78,7 @@ export default class CameraExample extends Component {
   startCamera = () => this.setState({showCamera: true});
 
   render() {
-    const {hasPermission, height, photoUriProp, showCamera, type} = this.state;
+    const {hasPermission, photoUriProp, showCamera, type} = this.state;
     const photoUri = this.state.photoUri || photoUriProp;
 
     // If we haven't asked for permission to use camera yet ...
@@ -107,11 +107,13 @@ export default class CameraExample extends Component {
         )}
         {!showCamera && (
           <ImageBackground style={styles.view} source={{uri: photoUri}}>
-            <MyButton
-              buttonStyle={styles.button}
-              onPress={this.startCamera}
-              text="Camera"
-            />
+            <View style={styles.view}>
+              <MyButton
+                buttonStyle={styles.button}
+                onPress={this.startCamera}
+                text="Camera"
+              />
+            </View>
           </ImageBackground>
         )}
       </View>

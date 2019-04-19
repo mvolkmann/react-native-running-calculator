@@ -15,10 +15,12 @@ import {
   TextInput,
   View
 } from 'react-native';
+//import Buttons from './Buttons';
 import Dial from './Dial';
 import MyButton from './MyButton';
 import MyCamera from './MyCamera';
 import MyModal from './MyModal';
+//import SpeechBubble from './SpeechBubble';
 import SvgDemo from './SvgDemo';
 
 const DISTANCE_RE = /^(|\d{1,2}(\.\d{0,2})?)$/;
@@ -209,7 +211,15 @@ export default class RunningCalculator extends Component {
 
         <Text style={styles.title}>Running Calculator</Text>
 
+        {/* <Buttons /> */}
+
         <Dial style={{marginTop: 20}} value={score} width="100%" />
+
+        {/* <SpeechBubble
+          backgroundColor="yellow"
+          color="red"
+          text="Hello, World!"
+        /> */}
 
         <View key="score" style={styles.slider}>
           <Slider
@@ -358,7 +368,6 @@ const styles = StyleSheet.create({
     width: 100
   },
   label: {
-    //fontFamily,
     fontSize: 24,
     marginRight: 10,
     textAlign: 'right',
@@ -422,6 +431,7 @@ const styles = StyleSheet.create({
   },
   title: {
     color: 'yellow',
+    fontFamily: 'Funny Pages',
     fontSize: 36,
     fontWeight: 'bold'
   }

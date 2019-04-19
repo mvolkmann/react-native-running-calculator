@@ -1,5 +1,5 @@
-import {number, object, string} from 'prop-types';
 import {Svg} from 'expo';
+import {number, object, string} from 'prop-types';
 import React from 'react';
 import {Dimensions, View} from 'react-native';
 

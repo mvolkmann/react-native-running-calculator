@@ -3,8 +3,15 @@ import React from 'react';
 import {Modal, StyleSheet, Text, View} from 'react-native';
 import MyButton from './MyButton';
 
+const BG_OPACITY = 0.6;
+
 const MyModal = ({children, onClose, style, title, visible}) => (
-  <Modal animationType="slide" transparent visible={visible}>
+  <Modal
+    animationType="slide"
+    onRequestClose={onClose}
+    transparent
+    visible={visible}
+  >
     <View style={styles.modalOuter}>
       <View style={[styles.modalInner, style]}>
         <View style={styles.titleRow}>
@@ -65,7 +72,7 @@ const styles = StyleSheet.create({
     width: '70%'
   },
   modalOuter: {
-    backgroundColor: 'rgba(80, 80, 80, 0.1)',
+    backgroundColor: `rgba(80, 80, 80, ${BG_OPACITY})`,
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center'
