@@ -17,8 +17,12 @@
       "fallbackToCacheTimeout": 0
     },
     "assetBundlePatterns": ["**/*"],
+    "android": {
+      "package": "com.objectcomputing.running_calculator"
+    },
     "ios": {
       "supportsTablet": true
-    }
+    },
+    "description": ""
   }
 }

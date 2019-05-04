@@ -1,10 +1,10 @@
 {
-  "devToolsPort": 19005,
-  "expoServerPort": 19006,
-  "packagerPort": 19007,
-  "packagerPid": 21842,
-  "expoServerNgrokUrl": "https://6d-juu.anonymous.react-native-running-calculator.exp.direct",
-  "packagerNgrokUrl": "https://packager.6d-juu.anonymous.react-native-running-calculator.exp.direct",
-  "ngrokPid": 21862,
+  "devToolsPort": 19004,
+  "expoServerPort": null,
+  "packagerPort": null,
+  "packagerPid": null,
+  "expoServerNgrokUrl": null,
+  "packagerNgrokUrl": null,
+  "ngrokPid": null,
   "webpackServerPort": null
 }
